@@ -1,0 +1,963 @@
+{
+	"info": {
+		"_postman_id": "61d5e3a6-33b6-42c2-94c7-d31d0d37681b",
+		"name": "Умный Полис Басов QA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21673562"
+	},
+	"item": [
+		{
+			"name": "Получение token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"token\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "headerPrefix",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "qa@qa.qa",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "111",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://partner.agentapp.ru/v1/users/obtain-token",
+					"protocol": "https",
+					"host": [
+						"partner",
+						"agentapp",
+						"ru"
+					],
+					"path": [
+						"v1",
+						"users",
+						"obtain-token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание водителя",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.sendRequest({\r",
+							"    url: \"https://partner.agentapp.ru/v1/users/obtain-token\",\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Authorization': `${pm.environment.get(\"token\")}`,\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'urlencoded',\r",
+							"        urlencoded:\r",
+							"        [\r",
+							"            {key: \"username\", value: \"qa@qa.qa\"},\r",
+							"            {key: \"password\", value: \"111\"}\r",
+							"        ]\r",
+							"    }  \r",
+							"}, function (err, res) {\r",
+							"    if (err) {\r",
+							"        throw new Error(err);\r",
+							"    } else {\r",
+							"        console.log(\"auth was successful\")\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"DriverID\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "111",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "qa@qa.qa",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_name\": \"Имя\",\r\n    \"last_name\": \"Фамилия\",\r\n    \"patronymic\": \"Отчество\",\r\n    \"birth_date\": \"1990-01-01\",\r\n    \"driving_experience_started\": \"2010-10-10\",\r\n    \"driver_licenses\": [\r\n        {\r\n            \"credential_type\": \"DRIVER_LICENSE\",\r\n            \"number\": \"012345\",\r\n            \"series\": \"1234\",\r\n            \"issue_date\": \"2010-10-10\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://partner.agentapp.ru/v1/insured_objects/drivers",
+					"protocol": "https",
+					"host": [
+						"partner",
+						"agentapp",
+						"ru"
+					],
+					"path": [
+						"v1",
+						"insured_objects",
+						"drivers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание собственника",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.sendRequest({\r",
+							"    url: \"https://partner.agentapp.ru/v1/users/obtain-token\",\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Authorization': `${pm.environment.get(\"token\")}`,\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'urlencoded',\r",
+							"        urlencoded:\r",
+							"        [\r",
+							"            {key: \"username\", value: \"qa@qa.qa\"},\r",
+							"            {key: \"password\", value: \"111\"}\r",
+							"        ]\r",
+							"    }  \r",
+							"}, function (err, res) {\r",
+							"    if (err) {\r",
+							"        throw new Error(err);\r",
+							"    } else {\r",
+							"        console.log(\"auth was successful\")\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"OwnerID\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "111",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "qa@qa.qa",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"last_name\": \"Фамилия\",\r\n  \"first_name\": \"Имя\",\r\n  \"patronymic\": \"Отчество\",\r\n  \"birth_date\": \"1990-01-01\",\r\n  \"credential\": [\r\n    {\r\n      \"credential_type\": \"RUSSIAN_INTERNAL_PASSPORT\",\r\n      \"issue_date\": \"2017-03-08\",\r\n      \"issue_point\": \"УФМС\",\r\n      \"issue_point_code\": \"123-456\",\r\n      \"number\": \"123456\",\r\n      \"series\": \"1234\"\r\n    }\r\n  ],\r\n  \"address\": [\r\n    {\r\n      \"address_query\": \"г Санкт-Петербург, г Ломоносов, ул Швейцарская, д 1 к 1, кв 1\",\r\n      \"address_type\": \"LEGAL_ADDRESS\",\r\n      \"region_kladr_id\": \"7800000000000\",\r\n      \"city_kladr_id\": \"7800000600000\"\r\n    },\r\n    {\r\n      \"address_query\": \"г Санкт-Петербург, г Ломоносов, ул Швейцарская, д 1 к 1, кв 1\",\r\n      \"address_type\": \"ACTUAL_ADDRESS\",\r\n      \"region_kladr_id\": \"7800000000000\",\r\n      \"city_kladr_id\": \"7800000600000\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://partner.agentapp.ru/v1/insured_objects/owners/natural_persons",
+					"protocol": "https",
+					"host": [
+						"partner",
+						"agentapp",
+						"ru"
+					],
+					"path": [
+						"v1",
+						"insured_objects",
+						"owners",
+						"natural_persons"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание страхователя",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.sendRequest({\r",
+							"    url: \"https://partner.agentapp.ru/v1/users/obtain-token\",\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Authorization': `${pm.environment.get(\"token\")}`,\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'urlencoded',\r",
+							"        urlencoded:\r",
+							"        [\r",
+							"            {key: \"username\", value: \"qa@qa.qa\"},\r",
+							"            {key: \"password\", value: \"111\"}\r",
+							"        ]\r",
+							"    }  \r",
+							"}, function (err, res) {\r",
+							"    if (err) {\r",
+							"        throw new Error(err);\r",
+							"    } else {\r",
+							"        console.log(\"auth was successful\")\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"InsurantID\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "111",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "qa@qa.qa",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"last_name\": \"Фамилия\",\r\n  \"first_name\": \"Имя\",\r\n  \"patronymic\": \"Отчество\",\r\n  \"birth_date\": \"1990-01-01\",\r\n  \"credential\": [\r\n    {\r\n      \"credential_type\": \"RUSSIAN_INTERNAL_PASSPORT\",\r\n      \"issue_date\": \"2010-10-10\",\r\n      \"issue_point\": \"УФМС\",\r\n      \"issue_point_code\": \"123-456\",\r\n      \"number\": \"123456\",\r\n      \"series\": \"1234\"\r\n    }\r\n  ],\r\n  \"address\": [\r\n    {\r\n      \"address_query\": \"г Санкт-Петербург, г Ломоносов, ул Швейцарская, д 1 к 1, кв 1\",\r\n      \"address_type\": \"LEGAL_ADDRESS\",\r\n      \"region_kladr_id\": \"7800000000000\",\r\n      \"city_kladr_id\": \"7800000600000\"\r\n    },\r\n    {\r\n      \"address_query\": \"г Санкт-Петербург, г Ломоносов, ул Швейцарская, д 1 к 1, кв 1\",\r\n      \"address_type\": \"ACTUAL_ADDRESS\",\r\n      \"region_kladr_id\": \"7800000000000\",\r\n      \"city_kladr_id\": \"7800000600000\"\r\n    }\r\n  ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://partner.agentapp.ru/v1/insured_objects/insurants/natural_persons",
+					"protocol": "https",
+					"host": [
+						"partner",
+						"agentapp",
+						"ru"
+					],
+					"path": [
+						"v1",
+						"insured_objects",
+						"insurants",
+						"natural_persons"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание автомобиля",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.sendRequest({\r",
+							"    url: \"https://partner.agentapp.ru/v1/users/obtain-token\",\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Authorization': `${pm.environment.get(\"token\")}`,\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'urlencoded',\r",
+							"        urlencoded:\r",
+							"        [\r",
+							"            {key: \"username\", value: \"qa@qa.qa\"},\r",
+							"            {key: \"password\", value: \"111\"}\r",
+							"        ]\r",
+							"    }  \r",
+							"}, function (err, res) {\r",
+							"    if (err) {\r",
+							"        throw new Error(err);\r",
+							"    } else {\r",
+							"        console.log(\"auth was successful\")\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"CarID\", jsonData.id);\r",
+							"pm.environment.set(\"Manufacturing_year\", jsonData.manufacturing_year);\r",
+							"pm.environment.set(\"Car_model_id\", jsonData.car_model_id);\r",
+							"pm.environment.set(\"engine_power\", jsonData.engine_power);\r",
+							"pm.environment.set(\"has_trailer\", jsonData.has_trailer);\r",
+							"pm.environment.set(\"car_type\", jsonData.car_type);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "111",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "qa@qa.qa",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"car_model_id\": 864026180,\r\n  \"engine_power\": 211,\r\n  \"chassis_number\": 777777,\r\n  \"car_body_number\": 666666,\r\n  \"vin_number\": \"WAUZZZ8T4BA037241\",\r\n  \"number_plate\": \"Р904МХ178\",\r\n  \"manufacturing_year\": 2010,\r\n  \"max_mass\": null,\r\n  \"credential\": [\r\n    {\r\n      \"credential_type\": \"VEHICLE_REGISTRATION\",\r\n      \"issue_date\": \"2010-11-01\",\r\n      \"number\": \"267461\",\r\n      \"series\": \"78УН\"\r\n    }\r\n  ]\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://partner.agentapp.ru/v3/insured_objects/cars",
+					"protocol": "https",
+					"host": [
+						"partner",
+						"agentapp",
+						"ru"
+					],
+					"path": [
+						"v3",
+						"insured_objects",
+						"cars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание Объекта страхования",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.sendRequest({\r",
+							"    url: \"https://partner.agentapp.ru/v1/users/obtain-token\",\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Authorization': `${pm.environment.get(\"token\")}`,\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'urlencoded',\r",
+							"        urlencoded:\r",
+							"        [\r",
+							"            {key: \"username\", value: \"qa@qa.qa\"},\r",
+							"            {key: \"password\", value: \"111\"}\r",
+							"        ]\r",
+							"    }  \r",
+							"}, function (err, res) {\r",
+							"    if (err) {\r",
+							"        throw new Error(err);\r",
+							"    } else {\r",
+							"        console.log(\"auth was successful\")\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"ObjectInsuranceID\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "111",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "qa@qa.qa",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "drivers",
+							"value": "{{DriverID}}",
+							"type": "text"
+						},
+						{
+							"key": "owner",
+							"value": "{{OwnerID}}",
+							"type": "text"
+						},
+						{
+							"key": "car",
+							"value": "{{CarID}}",
+							"type": "text"
+						},
+						{
+							"key": "insurant",
+							"value": "{{InsurantID}}",
+							"type": "text"
+						},
+						{
+							"key": "manufacturing_year",
+							"value": "{{Manufacturing_year}}",
+							"type": "text"
+						},
+						{
+							"key": "car_model_id",
+							"value": "{{Car_model_id}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://partner.agentapp.ru/v3/insured_objects/cars",
+					"protocol": "https",
+					"host": [
+						"partner",
+						"agentapp",
+						"ru"
+					],
+					"path": [
+						"v3",
+						"insured_objects",
+						"cars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание договора",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.sendRequest({\r",
+							"    url: \"https://partner.agentapp.ru/v1/users/obtain-token\",\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Authorization': `${pm.environment.get(\"token\")}`,\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'urlencoded',\r",
+							"        urlencoded:\r",
+							"        [\r",
+							"            {key: \"username\", value: \"qa@qa.qa\"},\r",
+							"            {key: \"password\", value: \"111\"}\r",
+							"        ]\r",
+							"    }  \r",
+							"}, function (err, res) {\r",
+							"    if (err) {\r",
+							"        throw new Error(err);\r",
+							"    } else {\r",
+							"        console.log(\"auth was successful\")\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"agreement_id\", jsonData.id);\r",
+							"pm.environment.set(\"calculation\", jsonData.calculation);\r",
+							"pm.environment.set(\"calculation.premium\", jsonData.calculation.premium);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "111",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "qa@qa.qa",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "valid_from",
+							"value": "2019-06-30",
+							"type": "text"
+						},
+						{
+							"key": "valid_to",
+							"value": "2020-06-29",
+							"type": "text"
+						},
+						{
+							"key": "insurance_period",
+							"value": "1 год",
+							"type": "text"
+						},
+						{
+							"key": "target_of_using",
+							"value": "11",
+							"type": "text"
+						},
+						{
+							"key": "drivers_ids",
+							"value": "{{DriverID}}",
+							"type": "text"
+						},
+						{
+							"key": "is_car_without_registration",
+							"value": "false",
+							"description": "При создании автомобиля необходимо указать минимум один из четырёх параметров регистрации, поэтому автомобиль всегда с регистрацией",
+							"type": "text"
+						},
+						{
+							"key": "engine_power",
+							"value": "{{engine_power}}",
+							"type": "text"
+						},
+						{
+							"key": "has_car_trailer",
+							"value": "{{has_trailer}}",
+							"type": "text"
+						},
+						{
+							"key": "car_type",
+							"value": "{{car_type}}",
+							"type": "text"
+						},
+						{
+							"key": "owner_registration",
+							"value": "{{address_query}}",
+							"type": "text"
+						},
+						{
+							"key": "periods",
+							"value": "[]",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://partner.agentapp.ru/v3/agreements/calculations",
+					"protocol": "https",
+					"host": [
+						"partner",
+						"agentapp",
+						"ru"
+					],
+					"path": [
+						"v3",
+						"agreements",
+						"calculations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Обновление Договора в системе AgentApp",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.sendRequest({\r",
+							"    url: \"https://partner.agentapp.ru/v1/users/obtain-token\",\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Authorization': `${pm.environment.get(\"token\")}`,\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'urlencoded',\r",
+							"        urlencoded:\r",
+							"        [\r",
+							"            {key: \"username\", value: \"qa@qa.qa\"},\r",
+							"            {key: \"password\", value: \"111\"}\r",
+							"        ]\r",
+							"    }  \r",
+							"}, function (err, res) {\r",
+							"    if (err) {\r",
+							"        throw new Error(err);\r",
+							"    } else {\r",
+							"        console.log(\"auth was successful\")\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"agreement_id\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "111",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "qa@qa.qa",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "insured_object",
+							"value": "{{ObjectInsuranceID}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://partner.agentapp.ru/v3/agreements/{{agreement_id}}",
+					"protocol": "https",
+					"host": [
+						"partner",
+						"agentapp",
+						"ru"
+					],
+					"path": [
+						"v3",
+						"agreements",
+						"{{agreement_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получение полного расчёт по СК",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.sendRequest({\r",
+							"    url: \"https://partner.agentapp.ru/v1/users/obtain-token\",\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Authorization': `${pm.environment.get(\"token\")}`,\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'urlencoded',\r",
+							"        urlencoded:\r",
+							"        [\r",
+							"            {key: \"username\", value: \"qa@qa.qa\"},\r",
+							"            {key: \"password\", value: \"111\"}\r",
+							"        ]\r",
+							"    }  \r",
+							"}, function (err, res) {\r",
+							"    if (err) {\r",
+							"        throw new Error(err);\r",
+							"    } else {\r",
+							"        console.log(\"auth was successful\")\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"integrated_company_title\", jsonData.integrated_company_title);\r",
+							"pm.environment.set(\"integrated_company_code\", jsonData.integrated_company_code);\r",
+							"pm.environment.set(\"premium\", jsonData.premium);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "111",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "qa@qa.qa",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "https://partner.agentapp.ru/v3/agreements/{{agreement_id}}/results/TEST_COMPANY",
+					"protocol": "https",
+					"host": [
+						"partner",
+						"agentapp",
+						"ru"
+					],
+					"path": [
+						"v3",
+						"agreements",
+						"{{agreement_id}}",
+						"results",
+						"TEST_COMPANY"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "accessTokenUrl",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "headerPrefix",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "tokenName",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "grant_type",
+				"value": "password_credentials",
+				"type": "string"
+			},
+			{
+				"key": "client_authentication",
+				"value": "body",
+				"type": "string"
+			},
+			{
+				"key": "challengeAlgorithm",
+				"value": "S256",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "queryParams",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
