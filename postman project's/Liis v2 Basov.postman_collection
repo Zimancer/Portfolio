@@ -1,0 +1,1364 @@
+{
+	"info": {
+		"_postman_id": "6bb36599-0ff6-4a1d-a467-bd23ae49cf44",
+		"name": "Liis v2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21673562"
+	},
+	"item": [
+		{
+			"name": "Posts",
+			"item": [
+				{
+					"name": "sign-in",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.environment.set(\"user_id\", jsonData.id);\r",
+									"pm.environment.set(\"username\", jsonData.username);\r",
+									"pm.environment.set(\"email\", jsonData.email);\r",
+									"pm.environment.set(\"password\", \"123\");\r",
+									"pm.environment.set(\"my_email\", \"edik-basov@mail.ru\");\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 600ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response size is less than 400b\", function () {\r",
+									"    pm.expect(pm.response.responseSize).to.be.below(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string username\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"username\");\r",
+									"});\r",
+									"pm.test(\"Body matches string password\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"password\");\r",
+									"});\r",
+									"pm.test(\"Body matches string id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});\r",
+									"pm.test(\"Body matches string email\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"email\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"{{$randomFirstName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"123\",\r\n    \"first_name\": \"{{$randomFirstName}}\",\r\n    \"middle_name\": \"{{$randomLastName}}\",\r\n    \"last_name\": \"{{$randomLastName}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{my_email}}/sign-in",
+							"protocol": "https",
+							"host": [
+								"hr",
+								"recruit",
+								"liis",
+								"su"
+							],
+							"path": [
+								"qa0",
+								"v2",
+								"api",
+								"{{my_email}}",
+								"sign-in"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "edik",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "edik-basov@mail.ru",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get posts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response size is less than 20kb\", function () {\r",
+									"    pm.expect(pm.response.responseSize).to.be.below(20240);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string content\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"content\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string name\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"name\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string author\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"author\");\r",
+									"});\r",
+									"pm.test(\"Body matches string publication_datetime\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"publication_datetime\");\r",
+									"});\r",
+									"pm.test(\"Body matches string id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{my_email}}/posts",
+							"protocol": "https",
+							"host": [
+								"hr",
+								"recruit",
+								"liis",
+								"su"
+							],
+							"path": [
+								"qa0",
+								"v2",
+								"api",
+								"{{my_email}}",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get post pagination",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{my_email}}/posts?page=2",
+							"protocol": "https",
+							"host": [
+								"hr",
+								"recruit",
+								"liis",
+								"su"
+							],
+							"path": [
+								"qa0",
+								"v2",
+								"api",
+								"{{my_email}}",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post posts",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.environment.set(\"post_id\", jsonData.id);\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.environment.set(\"post_id\", jsonData.id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 350ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(350);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response size is less than 450b\", function () {\r",
+									"    pm.expect(pm.response.responseSize).to.be.below(450);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string title\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"content\");\r",
+									"});\r",
+									"pm.test(\"Body matches string content\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"content\");\r",
+									"});\r",
+									"pm.test(\"Body matches string author\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"author\");\r",
+									"});\r",
+									"pm.test(\"Body matches string publication_datetime\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"publication_datetime\");\r",
+									"});\r",
+									"pm.test(\"Body matches string id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomLoremSentence}}\",\r\n    \"content\": \"{{$randomLoremSentence}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{my_email}}/posts",
+							"protocol": "https",
+							"host": [
+								"hr",
+								"recruit",
+								"liis",
+								"su"
+							],
+							"path": [
+								"qa0",
+								"v2",
+								"api",
+								"{{my_email}}",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "edik",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get post",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 50ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(50);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response size is less than 500b\", function () {\r",
+									"    pm.expect(pm.response.responseSize).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string title\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"content\");\r",
+									"});\r",
+									"pm.test(\"Body matches string content\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"content\");\r",
+									"});\r",
+									"pm.test(\"Body matches string author\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"author\");\r",
+									"});\r",
+									"pm.test(\"Body matches string publication_datetime\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"publication_datetime\");\r",
+									"});\r",
+									"pm.test(\"Body matches string id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{my_email}}/post/{{post_id}}",
+							"protocol": "https",
+							"host": [
+								"hr",
+								"recruit",
+								"liis",
+								"su"
+							],
+							"path": [
+								"qa0",
+								"v2",
+								"api",
+								"{{my_email}}",
+								"post",
+								"{{post_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put post",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response size is less than 500b\", function () {\r",
+									"    pm.expect(pm.response.responseSize).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"post is changed successfully\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"success\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomLoremSentence}}\",\r\n    \"content\": \"{{$randomLoremSentence}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{my_email}}/post/{{post_id}}",
+							"protocol": "https",
+							"host": [
+								"hr",
+								"recruit",
+								"liis",
+								"su"
+							],
+							"path": [
+								"qa0",
+								"v2",
+								"api",
+								"{{my_email}}",
+								"post",
+								"{{post_id}}"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "Post comments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.environment.set(\"comment_id\", jsonData.id);\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.environment.set(\"comment_id\", jsonData.id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response size is less than 500b\", function () {\r",
+									"    pm.expect(pm.response.responseSize).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string title\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"title\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string text\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"text\");\r",
+									"});\r",
+									"pm.test(\"Body matches string author\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"author\");\r",
+									"});\r",
+									"pm.test(\"Body matches string publication_datetime\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"publication_datetime\");\r",
+									"});\r",
+									"pm.test(\"Body matches string id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"{{$randomLoremSentence}}\",\r\n    \"text\": \"{{$randomLoremSentence}}\",\r\n    \"post\": {{post_id}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{my_email}}/comments",
+							"protocol": "https",
+							"host": [
+								"hr",
+								"recruit",
+								"liis",
+								"su"
+							],
+							"path": [
+								"qa0",
+								"v2",
+								"api",
+								"{{my_email}}",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get comments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 50ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(50);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response size is less than 3000b\", function () {\r",
+									"    pm.expect(pm.response.responseSize).to.be.below(3072);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string title\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"title\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string text\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"text\");\r",
+									"});\r",
+									"pm.test(\"Body matches string author\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"author\");\r",
+									"});\r",
+									"pm.test(\"Body matches string publication_datetime\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"publication_datetime\");\r",
+									"});\r",
+									"pm.test(\"Body matches string id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{my_email}}/comments",
+							"protocol": "https",
+							"host": [
+								"hr",
+								"recruit",
+								"liis",
+								"su"
+							],
+							"path": [
+								"qa0",
+								"v2",
+								"api",
+								"{{my_email}}",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get comment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 50ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(50);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response size is less than 500b\", function () {\r",
+									"    pm.expect(pm.response.responseSize).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string title\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"title\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string text\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"text\");\r",
+									"});\r",
+									"pm.test(\"Body matches string author\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"author\");\r",
+									"});\r",
+									"pm.test(\"Body matches string publication_datetime\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"publication_datetime\");\r",
+									"});\r",
+									"pm.test(\"Body matches string id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{my_email}}/comment/{{comment_id}}",
+							"protocol": "https",
+							"host": [
+								"hr",
+								"recruit",
+								"liis",
+								"su"
+							],
+							"path": [
+								"qa0",
+								"v2",
+								"api",
+								"{{my_email}}",
+								"comment",
+								"{{comment_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put comment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 400ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response size is less than 300b\", function () {\r",
+									"    pm.expect(pm.response.responseSize).to.be.below(300);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"post is changed successfully\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"success\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"{{$randomLoremSentence}}\",\r\n    \"text\": \"{{$randomLoremSentence}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{my_email}}/comment/{{comment_id}}",
+							"protocol": "https",
+							"host": [
+								"hr",
+								"recruit",
+								"liis",
+								"su"
+							],
+							"path": [
+								"qa0",
+								"v2",
+								"api",
+								"{{my_email}}",
+								"comment",
+								"{{comment_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get comments pagination",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{my_email}}/comments?page=1",
+							"protocol": "https",
+							"host": [
+								"hr",
+								"recruit",
+								"liis",
+								"su"
+							],
+							"path": [
+								"qa0",
+								"v2",
+								"api",
+								"{{my_email}}",
+								"comments"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete comment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response size is less than 500b\", function () {\r",
+									"    pm.expect(pm.response.responseSize).to.be.below(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{my_email}}/comment/{{comment_id}}",
+							"protocol": "https",
+							"host": [
+								"hr",
+								"recruit",
+								"liis",
+								"su"
+							],
+							"path": [
+								"qa0",
+								"v2",
+								"api",
+								"{{my_email}}",
+								"comment",
+								"{{comment_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check comment after deletion Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 50ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(50);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response size is less than 500b\", function () {\r",
+									"    pm.expect(pm.response.responseSize).to.be.below(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{my_email}}/comment/{{comment_id}}",
+							"protocol": "https",
+							"host": [
+								"hr",
+								"recruit",
+								"liis",
+								"su"
+							],
+							"path": [
+								"qa0",
+								"v2",
+								"api",
+								"{{my_email}}",
+								"comment",
+								"{{comment_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete post",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response size is less than 200b\", function () {\r",
+							"    pm.expect(pm.response.responseSize).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{my_email}}/post/{{post_id}}",
+					"protocol": "https",
+					"host": [
+						"hr",
+						"recruit",
+						"liis",
+						"su"
+					],
+					"path": [
+						"qa0",
+						"v2",
+						"api",
+						"{{my_email}}",
+						"post",
+						"{{post_id}}"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check post after deletion",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 50ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(50);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response size is less than 500b\", function () {\r",
+							"    pm.expect(pm.response.responseSize).to.be.below(500);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{my_email}}/post/{{post_id}}",
+					"protocol": "https",
+					"host": [
+						"hr",
+						"recruit",
+						"liis",
+						"su"
+					],
+					"path": [
+						"qa0",
+						"v2",
+						"api",
+						"{{my_email}}",
+						"post",
+						"{{post_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Grant user admin role",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\": {{user_id}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{my_email}}/make_admin",
+					"protocol": "https",
+					"host": [
+						"hr",
+						"recruit",
+						"liis",
+						"su"
+					],
+					"path": [
+						"qa0",
+						"v2",
+						"api",
+						"{{my_email}}",
+						"make_admin"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
